@@ -216,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
         @SuppressLint("WrongThread")
         @Override
         protected void onPostExecute(Bitmap bitmap) {
