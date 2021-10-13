@@ -41,6 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -117,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
             imageDownloader.execute(urlsToDownload[incr]);
             arr.add(imageDownloader);
         }
+
+
+        //Save Local File to Downloads Folder
+        saveLocalTextFileToDownloadsFolder();
 
     }
 
@@ -368,6 +373,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void saveLocalTextFileToDownloadsFolder(){
+        File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        folder.mkdirs();
+
+        File file = new File(folder,"demotest.txt");
+
+        try {
+
+            FileOutputStream fileOutputStream = new FileOutputStream(file,true);
+            PrintStream printStream = new PrintStream(fileOutputStream);
+            printStream.append("Hello World!!!");
+            fileOutputStream.close();
+
+        }catch (Exception e)
+        {
+            Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
 }
