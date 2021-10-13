@@ -13,8 +13,10 @@ import androidx.core.content.ContextCompat;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -385,6 +387,27 @@ public class MainActivity extends AppCompatActivity {
             PrintStream printStream = new PrintStream(fileOutputStream);
             printStream.append("Hello World!!!");
             fileOutputStream.close();
+
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context. NOTIFICATION_SERVICE ) ;
+            PendingIntent contentIntent = PendingIntent.getActivity(MainActivity.this, 0, new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS),0);
+            if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+                AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
+                        .setUsage(AudioAttributes. USAGE_ALARM )
+                        .build() ;
+                int importance = NotificationManager. IMPORTANCE_HIGH ;
+                NotificationChannel notificationChannel = new
+                        NotificationChannel( NOTIFICATION_CHANNEL_ID , "NOTIFICATION_CHANNEL_NAME" , importance) ;
+                notificationChannel.setLightColor(Color. RED ) ;
+                notificationChannel.enableVibration( true ) ;
+                mBuilder.setChannelId( NOTIFICATION_CHANNEL_ID ) ;
+                mBuilder.setContentIntent(contentIntent);
+                mBuilder.setAutoCancel(true);
+                assert mNotificationManager != null;
+                mNotificationManager.createNotificationChannel(notificationChannel) ;
+            }
+            // Displays the progress bar for the first time.
+            notificationManager.notify(1,mBuilder.build());
 
         }catch (Exception e)
         {
