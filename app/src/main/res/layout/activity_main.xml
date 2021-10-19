@@ -14,4 +14,9 @@
         android:id="@+id/imageView"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/test"/>
+
 </LinearLayout>

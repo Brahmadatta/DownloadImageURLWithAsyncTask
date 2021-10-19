@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -28,12 +29,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioAttributes;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -57,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     NotificationCompat.Builder mBuilder;
     NotificationManager notificationManager;
     int id = 1;
+    Button test;
 
     public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
     private final static String default_notification_channel_id = "default";
@@ -98,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         //getBitmapFromURL("https://picsum.photos/200");
 
         imageView = findViewById(R.id.imageView);
+        test = findViewById(R.id.test);
 
         checkPermission();
         mBuilder = new NotificationCompat.Builder(MainActivity. this,
@@ -112,6 +118,12 @@ public class MainActivity extends AppCompatActivity {
         // Start a lengthy operation in a background thread
         notificationManager.createNotificationChannel(notificationChannel);
 
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,TestActivity.class));
+            }
+        });
 
         arr = new ArrayList<AsyncTask<String, String, Void>>();
         int incr;
@@ -293,7 +305,6 @@ public class MainActivity extends AppCompatActivity {
                 if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
                     AudioAttributes audioAttributes = new AudioAttributes.Builder()
                             .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
-                            .setUsage(AudioAttributes. USAGE_ALARM )
                             .build() ;
                     int importance = NotificationManager. IMPORTANCE_HIGH ;
                     NotificationChannel notificationChannel = new
@@ -391,10 +402,6 @@ public class MainActivity extends AppCompatActivity {
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context. NOTIFICATION_SERVICE ) ;
             PendingIntent contentIntent = PendingIntent.getActivity(MainActivity.this, 0, new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS),0);
             if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
-                AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                        .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
-                        .setUsage(AudioAttributes. USAGE_ALARM )
-                        .build() ;
                 int importance = NotificationManager. IMPORTANCE_HIGH ;
                 NotificationChannel notificationChannel = new
                         NotificationChannel( NOTIFICATION_CHANNEL_ID , "NOTIFICATION_CHANNEL_NAME" , importance) ;
