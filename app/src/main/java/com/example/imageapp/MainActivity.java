@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         test = findViewById(R.id.test);
 
-        checkPermission();
+        //checkPermission();
         mBuilder = new NotificationCompat.Builder(MainActivity. this,
                 default_notification_channel_id );
         NotificationChannel notificationChannel = new NotificationChannel("11" , "channel_name", NotificationManager.IMPORTANCE_HIGH);
